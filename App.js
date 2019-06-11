@@ -1,70 +1,48 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, SectionList } from 'react-native';
+import { Platform, StyleSheet, Text, View, Picker } from 'react-native';
 
 export default class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      Nomes: [
-        {
-          title: 'A', data: [
-            { key: '2', nome: 'Arthur Filho', idade: 26 },
-            { key: '4', nome: 'Aique Candido', idade: 26 },
-            { key: '5', nome: 'Airton Medeiros', idade: 26 },
-          ]
-        },
-        {
-          title: 'B', data: [
-            { key: '1', nome: 'Bruno ', idade: 26 },
-            { key: '2', nome: 'Biboe ', idade: 26 },
-            { key: '3', nome: 'Bavid ', idade: 26 },
-            { key: '4', nome: 'Baique', idade: 26 },
-          ]
-        },
-        {
-          title: 'C', data: [
-            { key: '1', nome: 'Candido', idade: 26 },
-            { key: '2', nome: 'Carlos Filho', idade: 26 },
-            { key: '3', nome: 'CaiqueLuna', idade: 26 },
-            { key: '5', nome: 'Cleber Medeiros', idade: 26 },
-          ]
-        },
+      servico: 0,
+      servicos: [
+        {nome: 'Alinhamento', valor: 30},
+        {nome: 'Balancemento', valor: 20},
+        {nome: 'Rodízio de Pneus', valor: 50},
+        {nome: 'Troca de Óleo', valor: 90},
       ]
     };
   }
 
-
-  listSectionRender(section) {
-    return (
-      <Text style={styles.section}>Letra {section.title}</Text>
-    );
-  }
-
-  listRender(item) {
-    return (
-      <Text style={styles.nome}>{item.nome} - {item.idade} anos</Text>
-    );
-  }
-
   render() {
+
+    let itemServicos = this.state.servicos.map((sValue, sKey) => {
+      return <Picker.item key={sKey} value={sKey} label={sValue.nome} />
+    });
+
     return (
       <View style={styles.container}>
-        <SectionList style={styles.flatList} sections={this.state.Nomes} renderItem={({item}) => this.listRender(item)} renderSectionHeader={({ section }) => this.listSectionRender(section)} />
+        <Text style={styles.logo}>Wagner AutoPeças</Text>
+        <Picker selectedValue={this.state.servico} onValueChange={(itemValue, itemIndex) => this.setState({servico: itemValue})}>
+          {itemServicos}
+        </Picker>
+        <Text style={styles.textoSelecte}>R$ {this.state.servicos[this.state.servico].valor}</Text>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  nome: {
-    fontSize: 18,
-    padding: 5
+  logo: {
+    fontSize: 35,
+    padding: 20,
+    textAlign: 'center',
+    marginBottom: 20
   },
-  section: {
-    fontSize: 14,
-    backgroundColor: '#CCC',
-    padding: 10
+  textoSelecte: {
+    fontSize: 26,
+    padding: 10,
   }
-
 });
