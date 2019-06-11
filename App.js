@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, FlatList} from 'react-native';
-import { isTemplateElement } from '@babel/types';
+import { Platform, StyleSheet, Text, View, SectionList } from 'react-native';
 
 export default class App extends Component {
 
@@ -8,46 +7,64 @@ export default class App extends Component {
     super(props);
     this.state = {
       Nomes: [
-        {key: '1', nome: 'Wagner Candido', idade: 26},
-        {key: '2', nome: 'Arthur Filho', idade: 26},
-        {key: '3', nome: 'David Luna', idade: 26},
-        {key: '4', nome: 'Kaique Candido', idade: 26},
-        {key: '5', nome: 'Victor Medeiros', idade: 26},
+        {
+          title: 'A', data: [
+            { key: '2', nome: 'Arthur Filho', idade: 26 },
+            { key: '4', nome: 'Aique Candido', idade: 26 },
+            { key: '5', nome: 'Airton Medeiros', idade: 26 },
+          ]
+        },
+        {
+          title: 'B', data: [
+            { key: '1', nome: 'Bruno ', idade: 26 },
+            { key: '2', nome: 'Biboe ', idade: 26 },
+            { key: '3', nome: 'Bavid ', idade: 26 },
+            { key: '4', nome: 'Baique', idade: 26 },
+          ]
+        },
+        {
+          title: 'C', data: [
+            { key: '1', nome: 'Candido', idade: 26 },
+            { key: '2', nome: 'Carlos Filho', idade: 26 },
+            { key: '3', nome: 'CaiqueLuna', idade: 26 },
+            { key: '5', nome: 'Cleber Medeiros', idade: 26 },
+          ]
+        },
       ]
     };
   }
 
-  renderNome(item) {
+
+  listSectionRender(section) {
     return (
-      <View style={styles.viewNomes}>
-        <Text style={styles.nome}>{item.nome}</Text>
-        <Text style={styles.idade}>{item.idade}, anos</Text>
-      </View>
-    )
+      <Text style={styles.section}>Letra {section.title}</Text>
+    );
+  }
+
+  listRender(item) {
+    return (
+      <Text style={styles.nome}>{item.nome} - {item.idade} anos</Text>
+    );
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <FlatList style={styles.flatList} data={this.state.Nomes} renderItem={({item}) => this.renderNome(item)}/>
+        <SectionList style={styles.flatList} sections={this.state.Nomes} renderItem={({item}) => this.listRender(item)} renderSectionHeader={({ section }) => this.listSectionRender(section)} />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  flatList: {
-    height: 150
-  },
-  viewNomes: {
-    height: 80,
-    padding: 10
-  },
   nome: {
-    fontSize: 24,
+    fontSize: 18,
+    padding: 5
   },
-  idade: {
-    fontSize: 16,
+  section: {
+    fontSize: 14,
+    backgroundColor: '#CCC',
+    padding: 10
   }
-  
+
 });
