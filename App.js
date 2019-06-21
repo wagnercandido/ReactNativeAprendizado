@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { Text, View, Button } from 'react-native';
 
 class MeuComponent extends Component {
   render() {
     return (
-      <Text>{this.props.propriedade}</Text>
+      <Text>Bem vindo, {this.props.nome}</Text>
     );
   }
 }
@@ -13,11 +13,9 @@ export default class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { 
+    console.log('Constructor Called.');
 
-      textState : 'Welcome my first project',
-      
-    };
+    this.state = { name: 'Wagner' };
 
     this.alteraTexto = this.alteraTexto.bind(this);
 
@@ -25,37 +23,53 @@ export default class App extends Component {
 
   alteraTexto() {
 
-    this.state.textState = 'Texto Após clique';
+    this.state.name = 'Wagner Candido';
 
     this.setState(this.state);
   }
 
+  componentWillMount() {
+    console.log('componentWillMount called.');
+  }
+
+  componentDidMount() {
+    console.log('componentDidMount called.');
+  }
+
+  componentWillReceiveProps(nextProp) {
+    console.log('componentWillReceiveProps called.', nextProp);
+  }
+
+  shouldComponentUpdate(nextProp, nextState) {
+    console.log('shouldComponentUpdate called.');
+    return true;
+  }
+
+  componentWillUpdate(nextProp, nextState) {
+    console.log('componentWillUpdate called.');
+  }
+
+  componentDidUpdate(prevProp, prevState) {
+    console.log('componentDidUpdate called.');
+  }
+
+  componentWillUnmount() {
+    console.log('componentWillUnmount called.');
+  }
+
+  componentDidCatch(error, info) {
+    console.log('componentDidCatch called.');
+  }
+
   render() {
+    console.log('Render called');
     return (
-      <View style={styles.container}>
-        <View style={styles.welcome}>
-
-          <MeuComponent propriedade={this.state.textState}></MeuComponent>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <MeuComponent nome={this.state.name} />
+        <View>
           <Button title="sign in" onPress={this.alteraTexto} color="#4d58c1" />
-
         </View>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFF',
-  },
-  welcome: {
-    flex: 1,
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  
-});
